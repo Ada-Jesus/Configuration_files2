@@ -1,23 +1,17 @@
-# ═════════════════════════════════════════════════════════════
 # ECS CLUSTER
-# ═════════════════════════════════════════════════════════════
 
 resource "aws_ecs_cluster" "main" {
   name = local.name_prefix
 }
 
-# ═════════════════════════════════════════════════════════════
 # CLOUDWATCH LOGS
-# ═════════════════════════════════════════════════════════════
 
 resource "aws_cloudwatch_log_group" "ecs" {
   name              = "/ecs/${local.name_prefix}"
   retention_in_days = var.log_retention_days
 }
 
-# ═════════════════════════════════════════════════════════════
 # TASK DEFINITION
-# ═════════════════════════════════════════════════════════════
 
 resource "aws_ecs_task_definition" "app" {
   family                   = local.name_prefix
@@ -57,9 +51,7 @@ resource "aws_ecs_task_definition" "app" {
   }])
 }
 
-# ═════════════════════════════════════════════════════════════
 # BLUE SERVICE (LIVE)
-# ═════════════════════════════════════════════════════════════
 
 resource "aws_ecs_service" "blue" {
   name            = "${local.name_prefix}-blue"
@@ -82,9 +74,7 @@ resource "aws_ecs_service" "blue" {
   }
 }
 
-# ═════════════════════════════════════════════════════════════
 # GREEN SERVICE (DEPLOYMENT SLOT)
-# ═════════════════════════════════════════════════════════════
 
 resource "aws_ecs_service" "green" {
   name            = "${local.name_prefix}-green"
@@ -94,7 +84,7 @@ resource "aws_ecs_service" "green" {
   desired_count = 0
   launch_type   = "FARGATE"
 
-  # 🔥 CRITICAL FIX (prevents your previous error)
+  #  CRITICAL FIX 
   depends_on = [
     aws_lb.main,
     aws_lb_listener.http,

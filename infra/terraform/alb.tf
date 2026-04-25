@@ -1,6 +1,4 @@
-# ═══════════════════════════════════════════════════════════════
 # APPLICATION LOAD BALANCER
-# ═══════════════════════════════════════════════════════════════
 
 resource "aws_lb" "main" {
   name               = "${local.name_prefix}-alb"
@@ -11,9 +9,7 @@ resource "aws_lb" "main" {
   enable_deletion_protection = false
 }
 
-# ═══════════════════════════════════════════════════════════════
-# LISTENER (THIS WAS MISSING / BROKEN)
-# ═══════════════════════════════════════════════════════════════
+# LISTENER - HTTP
 
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.main.arn
@@ -31,9 +27,7 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-# ═══════════════════════════════════════════════════════════════
 # TARGET GROUP - BLUE
-# ═══════════════════════════════════════════════════════════════
 
 resource "aws_lb_target_group" "blue" {
   name        = "${local.name_prefix}-blue"
@@ -47,9 +41,7 @@ resource "aws_lb_target_group" "blue" {
   }
 }
 
-# ═══════════════════════════════════════════════════════════════
 # TARGET GROUP - GREEN
-# ═══════════════════════════════════════════════════════════════
 
 resource "aws_lb_target_group" "green" {
   name        = "${local.name_prefix}-green"
@@ -63,9 +55,7 @@ resource "aws_lb_target_group" "green" {
   }
 }
 
-# ═══════════════════════════════════════════════════════════════
 # BLUE LISTENER RULE
-# ═══════════════════════════════════════════════════════════════
 
 resource "aws_lb_listener_rule" "blue" {
   listener_arn = aws_lb_listener.http.arn
@@ -83,9 +73,7 @@ resource "aws_lb_listener_rule" "blue" {
   }
 }
 
-# ═══════════════════════════════════════════════════════════════
 # GREEN LISTENER RULE
-# ═══════════════════════════════════════════════════════════════
 
 resource "aws_lb_listener_rule" "green" {
   listener_arn = aws_lb_listener.http.arn

@@ -1,6 +1,4 @@
-# ═══════════════════════════════════════════════════════════════════
-# SSM PARAMETERS – CLEAN VERSION
-# ═══════════════════════════════════════════════════════════════════
+# SSM PARAMETERS
 
 resource "aws_ssm_parameter" "api_key" {
   name      = "/${var.app_name}/${var.environment}/api-key"

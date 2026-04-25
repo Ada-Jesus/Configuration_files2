@@ -1,7 +1,4 @@
-# ═══════════════════════════════════════════════════════════════════
 # IAM ROLES – ECS TASK + EXECUTION ROLE (FIXED)
-# ═══════════════════════════════════════════════════════════════════
-
 data "aws_iam_policy_document" "ecs_task_assume" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -13,9 +10,7 @@ data "aws_iam_policy_document" "ecs_task_assume" {
   }
 }
 
-# ═══════════════════════════════════════════════════════════════════
 # EXECUTION ROLE (PULL IMAGE + LOGS + SSM SECRETS)
-# ═══════════════════════════════════════════════════════════════════
 
 resource "aws_iam_role" "task_execution" {
   name               = "${local.name_prefix}-task-execution-role"
@@ -27,10 +22,6 @@ resource "aws_iam_role_policy_attachment" "task_execution_base" {
   role       = aws_iam_role.task_execution.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
-
-# ═══════════════════════════════════════════════════════════════════
-# 🔥 THIS IS THE PART YOU WERE ASKING "WHERE DOES IT GO?"
-# ═══════════════════════════════════════════════════════════════════
 
 resource "aws_iam_role_policy" "task_execution_ssm" {
   name = "${local.name_prefix}-ssm-access"
@@ -60,9 +51,7 @@ resource "aws_iam_role_policy" "task_execution_ssm" {
   })
 }
 
-# ═══════════════════════════════════════════════════════════════════
 # TASK ROLE (APP RUNTIME PERMISSIONS)
-# ═══════════════════════════════════════════════════════════════════
 
 resource "aws_iam_role" "task" {
   name               = "${local.name_prefix}-task-role"
@@ -89,9 +78,7 @@ resource "aws_iam_role_policy" "task_app" {
   })
 }
 
-# ═══════════════════════════════════════════════════════════════════
 # OUTPUTS
-# ═══════════════════════════════════════════════════════════════════
 
 output "task_execution_role_arn" {
   value = aws_iam_role.task_execution.arn

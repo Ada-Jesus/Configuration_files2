@@ -1,6 +1,4 @@
-# ═══════════════════════════════════════════════════════════════════
-# SECURITY GROUPS (FIXED + CONSISTENT NAMES)
-# ═══════════════════════════════════════════════════════════════════
+# SECURITY GROUPS
 
 resource "aws_security_group" "alb" {
   name   = "${local.name_prefix}-alb-sg"
