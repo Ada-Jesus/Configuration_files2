@@ -84,7 +84,7 @@ resource "aws_ecs_service" "green" {
   desired_count = 0
   launch_type   = "FARGATE"
 
-  #  CRITICAL FIX 
+ 
   depends_on = [
     aws_lb.main,
     aws_lb_listener.http,
